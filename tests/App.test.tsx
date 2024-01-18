@@ -5,16 +5,6 @@ import { render, screen } from '@testing-library/react'
 import App from '../src/App'
 
 describe('<App />', () => {
-    // test('should work', () => {
-    //     render(<App />)
-
-    //     //muestra el HTML
-    //     // screen.debug()
-
-    //     //se fija que este el string en el html, si es diferente falla.
-    //     expect(screen.getByText('Prueba Tecnica')).toBeDefined()
-    // })
-
     test('should add items and remove them', async () => {
         const user = userEvent.setup()
 
@@ -28,7 +18,7 @@ describe('<App />', () => {
         const form = screen.getByRole('form')
         expect(form).toBeDefined()
 
-
+        // buscar el button en el form
         const button = form.querySelector('button')
         expect(button).toBeDefined()
 
@@ -37,12 +27,13 @@ describe('<App />', () => {
         await user.click(button!)
 
 
-        //recuperar list
+        // recuperar lista
         const list = screen.getByRole('list')
         expect(list).toBeDefined()
 
         // screen.debug()
-        //corroborar que se agrego el juego metal gear, tomando la lista y viendo la cantidad que tiene si es igual a 1
+
+        // corroborar que se agrego el id, toma la lista y ve si la cantidad es 1
         expect(list.childNodes.length).toBe(1)
 
 
@@ -53,6 +44,7 @@ describe('<App />', () => {
 
         await user.click(removeButton!)
 
+        // corroborar que cuando se borro el unico elemento que se agrego se renderiza el mensaje 'No hay elementos en la lista'
         const noResults = screen.getByText('No hay elementos en la lista')
         expect(noResults).toBeDefined()
 
