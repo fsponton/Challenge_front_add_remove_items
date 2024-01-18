@@ -1,6 +1,7 @@
 import './App.css'
 import { Item } from './componets/Item'
 import { useItems } from './hooks/useItems'
+import { handleSubmit } from './helpers/formUtils'
 
 export type ItemId = `${string}-${string}-${string}-${string}-${string}`
 
@@ -13,31 +14,20 @@ export interface Item {
 function App() {
   const { items, addItem, removeItem } = useItems()
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    const { elements } = event.currentTarget
-
-    const input = elements.namedItem('item')
-    const isInput = input instanceof HTMLInputElement
-    if (!isInput || input == null) return
-
-    addItem(input.value)
-
-    input.value = ''
-  }
+  const handleSubmitCallback = (event: React.FormEvent<HTMLFormElement>) => {
+    handleSubmit(event, addItem);
+  };
 
   const createHandleRemoveItem = (id: ItemId) => () => {
     removeItem(id)
   }
-
 
   return (
     <main>
       <aside>
         <h1> Prueba Tecnica</h1>
         <h2>Añadir y eliminar elementos a la lista</h2>
-        <form onSubmit={handleSubmit} aria-label='Add items to list'>
+        <form onSubmit={handleSubmitCallback} aria-label='Add items to list'>
           <label>
             Elemento a Introducir:
             <input
